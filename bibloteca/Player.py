@@ -5,14 +5,16 @@ from bibloteca.Control import Control
 class Player(pygame.sprite.Sprite):
     """"""
 
-    def __init__(self, position, image):
+    image_path = "./res/white-blood-cell-100x100.png"
+    
+    def __init__(self, position, control_id = -1):
         # Call the parent class (Sprite) constructor
         pygame.sprite.Sprite.__init__(self)
 
         # self.surface = pygame.transform.smoothscale(
         #     pygame.image.load(image).convert(), (100, 100))
 
-        self.surface = pygame.image.load(image).convert()
+        self.surface = pygame.image.load(Player.image_path).convert_alpha()
         self.image = self.surface
         self.rect = self.image.get_rect(center=position)
 
@@ -22,7 +24,7 @@ class Player(pygame.sprite.Sprite):
         self.angle = 0
         self.rotation_speed = 5
 
-        self.control = Control(control_id=0,
+        self.control = Control(control_id=control_id,
                                key_down=pygame.K_s,
                                key_up=pygame.K_w,
                                key_left=pygame.K_a,
@@ -50,13 +52,3 @@ class Player(pygame.sprite.Sprite):
 
         if self.control.get(Control.UP):
             self.acelerar()
-
-        # key = pygame.key.get_pressed()
-
-        # if key[pygame.K_a]:
-        #     self.rotate(self.rotation_speed)
-        # if key[pygame.K_d]:
-        #     self.rotate(-self.rotation_speed)
-        # if key[pygame.K_w]:
-        #     self.acelerar()
-        #     # self.rect.x += 1
