@@ -2,43 +2,53 @@ import pygame, sys, time
 from settings import *
 
 from bibloteca.Player import Player
+from bibloteca.FoodFactory import FoodFactory
 
 
 class Game:
+
+    BG = pygame.image.load("./res/bg.png")
+    
     def __init__(self):
         # setup
         self.display_surface = pygame.display.set_mode((WINDOW_WIDTH,WINDOW_HEIGHT))
-        self.clock = pygame.time.Clock()
 
-        self.background = pygame.image.load("./res/bg.png")
+        self.p1 = Player( position=(100,100), control_id = 0 )
+
+        self.food = FoodFactory();
+        self.food.add()
         
+        # self.all_sprites.add(Player( control_id = 1 ))
+        self.last_time = time.time()
 
+    def loop(self):
+        self.display_surface.blit(Game.BG,(0,0))
+        
+        # event loop
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()        
+
+        # game logic
+
+        self.food.update()
+        self.food.draw(self.display_surface)
+        
+        self.p1.update()
+        self.p1.draw(self.display_surface)
+
+        pygame.sprite.spritecollide(self.p1.hitbox, self.food.group, True)
+        
+        pygame.display.update()
+
+        
     def run(self):
-        last_time = time.time()
-        all_sprites = pygame.sprite.Group()
-    
-        all_sprites.add(Player( (100, 100), 0 ))
-        all_sprites.add(Player( (100, 100), 1 ))
-
-
+        # delta time
         while True:
-            self.display_surface.blit(self.background,(0,0))
-
-            # delta time
-            dt = time.time() - last_time
-            last_time = time.time()
-
-            # event loop
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    pygame.quit()
-                    sys.exit()
-
-
-            # game logic
-            all_sprites.update()
-            all_sprites.draw(self.display_surface)
-            pygame.display.update()
-            self.clock.tick(FRAMERATE)
-
-
+            # dt = time.time() - self.last_time
+            # last_time = time.time()
+            self.loop()
+            pygame.time.Clock().tick(FRAMERATE)
+            
+            
