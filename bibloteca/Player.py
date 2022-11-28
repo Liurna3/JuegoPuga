@@ -27,6 +27,7 @@ class Player(pygame.sprite.Sprite):
         self.image = self.surface
         self.rect = self.image.get_rect(center=position)
         self.hitbox = Hitbox(self.rect)
+        self.score = 0
 
         self.speed = 255
         self.rotation_speed = 150

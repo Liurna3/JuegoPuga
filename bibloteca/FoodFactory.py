@@ -1,5 +1,7 @@
 import pygame
+import random
 
+from settings import *
 
 class Food(pygame.sprite.Sprite):
 
@@ -17,8 +19,10 @@ class FoodFactory():
     def __init__(self):
         self.group = pygame.sprite.Group()
 
-    def add(self):
-        self.group.add(Food(position=(200,200)))
+    def create(self):
+        self.group.add(Food(
+            position=(random.randint(0, WINDOW_WIDTH),random.randint(0, WINDOW_HEIGHT))
+        ))
         
     def update(self):
         self.group.update()        
