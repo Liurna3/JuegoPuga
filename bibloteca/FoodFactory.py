@@ -21,7 +21,7 @@ class FoodFactory():
 
     def create(self):
         self.group.add(Food(
-            position=(random.randint(0, WINDOW_WIDTH),random.randint(0, WINDOW_HEIGHT))
+            position=(random.randint(0+70, WINDOW_WIDTH-70),random.randint(0+70, WINDOW_HEIGHT-70))
         ))
         
     def update(self):
