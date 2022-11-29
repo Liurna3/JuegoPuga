@@ -14,7 +14,7 @@ class Hitbox():
 class Player(pygame.sprite.Sprite):
     """"""
 
-    image_path = "./res/white-blood-cell-100x100.png"
+    image_path = "./res/celula.png"
     
     def __init__(self, position = (0,0), control_id = -1):
         # Call the parent class (Sprite) constructor

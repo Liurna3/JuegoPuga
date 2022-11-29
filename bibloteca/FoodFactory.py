@@ -5,7 +5,7 @@ from settings import *
 
 class Food(pygame.sprite.Sprite):
 
-    image_path = "./res/comida.png"
+    image_path = "./res/cancer.png"
 
     def __init__(self, position = (0,0)):
         pygame.sprite.Sprite.__init__(self)

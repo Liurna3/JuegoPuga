@@ -8,7 +8,7 @@ from bibloteca.FoodFactory import FoodFactory
 class Game:
 
     TICK = pygame.USEREVENT + 1
-    BG = pygame.image.load("./res/bg.png")
+    BG = pygame.image.load("./res/fondo.jpg")
 
     def __init__(self):
         # setup
