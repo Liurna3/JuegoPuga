@@ -48,15 +48,16 @@ class Game:
         self.p1.draw(self.display_surface)
 
         self.p2.update()
-        self.p2.draw(self.display_surface)
+        self.p2.draw(self.display_surface)        
 
-        if (pygame.sprite.spritecollide(self.p1.hitbox, self.food.group, True)
-                or pygame.sprite.spritecollide(self.p2.hitbox, self.food.group,
-                                               True)):
+        if (self.collide_food(self.p1) or self.collide_food(self.p2)):
             self.score += 1
             print(self.score)
 
         pygame.display.update()
+
+    def collide_food(self, player):
+        return pygame.sprite.spritecollide(player, self.food.group, True)
 
     def run(self):
         # delta time
