@@ -3,6 +3,7 @@ from settings import *
 
 from bibloteca.Player import Player
 from bibloteca.FoodFactory import FoodFactory
+from bibloteca.BitmapText import BitmapText
 
 
 class Game:
@@ -13,19 +14,22 @@ class Game:
     def __init__(self):
         # setup
         pygame.time.set_timer(Game.TICK, 500)
-        
+
         self.display_surface = pygame.display.set_mode(
             (WINDOW_WIDTH, WINDOW_HEIGHT))
 
-        self.p1 = Player(position=(100, 100), control_id=0)
-        self.p2 = Player(position=(100, 100), control_id=1)
+        self.p1 = Player(position=(WINDOW_WIDTH/2-300, WINDOW_HEIGHT/2), control_id=0)
+        self.p2 = Player(position=(WINDOW_WIDTH/2+300, WINDOW_HEIGHT/2), control_id=1)
 
         self.food = FoodFactory()
-        self.food.create()
 
-        # self.all_sprites.add(Player( control_id = 1 ))
         self.last_time = time.time()
         self.score = 0
+
+        self.max_vidas = 50
+        self.vidas = 50
+
+        self.delay_tick = 10
 
     def loop(self):
         self.display_surface.blit(Game.BG, (0, 0))
@@ -33,7 +37,10 @@ class Game:
         # event loop
         for event in pygame.event.get():
             if event.type == Game.TICK:
-                self.food.create()
+                if self.delay_tick > 0:
+                    self.delay_tick -= 1
+                else:
+                    self.food.create()
 
             if event.type == pygame.QUIT:
                 pygame.quit()
@@ -48,16 +55,48 @@ class Game:
         self.p1.draw(self.display_surface)
 
         self.p2.update()
-        self.p2.draw(self.display_surface)        
+        self.p2.draw(self.display_surface)
 
         if (self.collide_food(self.p1) or self.collide_food(self.p2)):
             self.score += 1
             print(self.score)
 
+        self.draw_ui()
+
         pygame.display.update()
 
     def collide_food(self, player):
-        return pygame.sprite.spritecollide(player, self.food.group, True)
+        return pygame.sprite.spritecollide(player.hitbox, self.food.group,
+                                           True)
+
+    def draw_ui(self):
+        nfood = self.food.activeFood()
+
+        if self.delay_tick > 0:
+            BitmapText.display(self.display_surface,"¿Listos?", WINDOW_WIDTH/2-270,WINDOW_HEIGHT/2-120);
+            BitmapText.display(self.display_surface,str(self.delay_tick), WINDOW_WIDTH/2-50,WINDOW_HEIGHT/2-25);
+
+        height_100 = WINDOW_HEIGHT-40
+        delta = (height_100/self.max_vidas)*nfood
+        
+        height = height_100  - delta
+        top = 20 + delta
+        
+        # top_0 = height_100
+        # top = top_0 + nfood - self.vidas
+        
+        pygame.draw.rect(
+            surface=self.display_surface,
+            border_radius=10,
+            color=(0, 150, 0),
+            rect=pygame.Rect(
+                WINDOW_WIDTH-80,
+                top,
+                60,
+                height
+            ),
+            width=0        
+        )
 
     def run(self):
         # delta time

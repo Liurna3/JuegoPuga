@@ -32,4 +32,5 @@ class FoodFactory():
         self.group.draw(surface)
         pass
         
-        
+    def activeFood(self):
+        return len(self.group.sprites())

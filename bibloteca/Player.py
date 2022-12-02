@@ -4,6 +4,8 @@ from bibloteca.Control import Control
 class Hitbox():
     def __init__(self, rect):
         self.rect = pygame.Rect.copy(rect)
+        self.rect.width = 70
+        self.rect.height = 70
 
     def set_position(self, x, y):
         self.rect.x = x - self.rect.width/2
@@ -44,7 +46,7 @@ class Player(pygame.sprite.Sprite):
 
     def draw(self, screen):
         screen.blit(self.image, self.rect)
-        pygame.draw.rect(screen, (255,0,0), self.hitbox.rect,2)
+        # pygame.draw.rect(screen, (255,0,0), self.hitbox.rect,2)
         
     def acelerar(self, dt):
         self.rect.move_ip(self.direction * self.speed * dt)
