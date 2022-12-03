@@ -38,11 +38,13 @@ class Player(pygame.sprite.Sprite):
 
         self.clock = pygame.time.Clock()
 
-        self.control = Control(control_id=control_id,
-                               key_down=pygame.K_s,
-                               key_up=pygame.K_w,
-                               key_left=pygame.K_a,
-                               key_right=pygame.K_d)
+        self.control = Control(
+            control_id=control_id,
+            key_down=pygame.K_s,
+            key_up=pygame.K_w,
+            key_left=pygame.K_a,
+            key_right=pygame.K_d
+        )
 
     def draw(self, screen):
         screen.blit(self.image, self.rect)

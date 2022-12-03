@@ -1,10 +1,10 @@
 import pygame, sys, time
 from settings import *
 
+from bibloteca.Control import Control
 from bibloteca.Player import Player
 from bibloteca.FoodFactory import FoodFactory
 from bibloteca.BitmapText import BitmapText
-
 
 class Game:
 
@@ -20,16 +20,36 @@ class Game:
         self.display_surface = pygame.display.set_mode(
             (WINDOW_WIDTH, WINDOW_HEIGHT))
 
-        self.p1 = Player(position=(CENTER_X - 300, CENTER_Y), control_id=0)
-        self.p2 = Player(position=(CENTER_X + 300, CENTER_Y), control_id=1)
+        self.p1 = Player(
+            control_id=0,
+            position=(CENTER_X - 300, CENTER_Y)
+        )
+
+        self.p1.control = Control(
+            control_id=0,
+            key_down=pygame.K_s,
+            key_up=pygame.K_w,
+            key_left=pygame.K_a,
+            key_right=pygame.K_d
+        )
+        
+        self.p2 = Player(
+            control_id=1,
+            position=(CENTER_X + 300, CENTER_Y)
+        )
+        
+        self.p2.control = Control(
+            control_id=1,
+            key_down=pygame.K_k,
+            key_up=pygame.K_i,
+            key_left=pygame.K_j,
+            key_right=pygame.K_l
+        )
 
         self.food = FoodFactory()
-
         self.last_time = time.time()
         self.score = 0
-
         self.max_vidas = 25
-
         self.delay_tick = 10
 
     def loop(self):
@@ -37,7 +57,7 @@ class Game:
 
         # event loop
         for event in pygame.event.get():
-            if event.type == Game.TICK:
+            if event.type == Game.TICK and self.food.activeFood() < self.max_vidas:
                 if self.delay_tick > 0:
                     self.delay_tick -= 1
                 else:
@@ -61,7 +81,6 @@ class Game:
         if (self.collide_food(self.p1) or self.collide_food(self.p2)):
             self.score += 1
             Game.eat_soud.play(0)
-            print(self.score)
 
         self.draw_ui()
 
@@ -74,27 +93,29 @@ class Game:
     def draw_ui(self):
         nfood = self.food.activeFood()
 
-        if (nfood > self.max_vidas):
-            BitmapText.display(self.display_surface,
-                               "Perdiste",
-                               CENTER_X - 270,
-                               CENTER_Y - 120,
-                               font=BitmapText.TITLE)
+
+        if (nfood >= self.max_vidas):
+            BitmapText.title(
+                self.display_surface,
+                "GAME OVER  GAME OVER  GAME",
+                color=(255,0,0),
+                cap=True
+            )
 
         if self.delay_tick > 0:
-            BitmapText.display(self.display_surface,
-                               "¿Listos?",
-                               CENTER_X - 270,
-                               CENTER_Y - 120,
-                               font=BitmapText.TITLE)
-            BitmapText.display(self.display_surface,
-                               str(self.delay_tick),
-                               CENTER_X - 50,
-                               CENTER_Y - 25,
-                               font=BitmapText.TITLE)
+            BitmapText.title(
+                self.display_surface,
+                "¿Preparados?",
+                alpha=255/10*self.delay_tick,
+                y=0
+            )
 
-        BitmapText.display(self.display_surface, "Score: " + str(self.score),
-                           20, 20)
+        
+        BitmapText.display(
+            self.display_surface,
+            "Score: " + str(self.score),
+            20,
+            20)
 
         height_100 = WINDOW_HEIGHT - 40
         delta = (height_100 / self.max_vidas) * nfood
@@ -102,14 +123,13 @@ class Game:
         height = height_100 - delta
         top = 20 + delta
 
-        # top_0 = height_100
-        # top = top_0 + nfood - self.vidas
-
-        pygame.draw.rect(surface=self.display_surface,
-                         border_radius=10,
-                         color=(0, 150, 0),
-                         rect=pygame.Rect(WINDOW_WIDTH - 80, top, 60, height),
-                         width=0)
+        pygame.draw.rect(
+            surface=self.display_surface,
+            border_radius=10,
+            color=(0, 255, 0),
+            rect=pygame.Rect(WINDOW_WIDTH - 80, top, 60, height),
+            width=0
+        )
 
     def run(self):
         # delta time
