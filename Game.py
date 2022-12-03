@@ -10,8 +10,9 @@ class Game:
 
     TICK = pygame.USEREVENT + 1
     background_image = pygame.image.load("./res/fondo.jpg")
-    eat_soud = pygame.mixer.Sound("./res/mixkit-video-game-retro-click-237.wav")
-    
+    eat_soud = pygame.mixer.Sound(
+        "./res/mixkit-video-game-retro-click-237.wav")
+
     def __init__(self):
         # setup
         pygame.time.set_timer(Game.TICK, 500)
@@ -19,8 +20,8 @@ class Game:
         self.display_surface = pygame.display.set_mode(
             (WINDOW_WIDTH, WINDOW_HEIGHT))
 
-        self.p1 = Player(position=(WINDOW_WIDTH/2-300, WINDOW_HEIGHT/2), control_id=0)
-        self.p2 = Player(position=(WINDOW_WIDTH/2+300, WINDOW_HEIGHT/2), control_id=1)
+        self.p1 = Player(position=(CENTER_X - 300, CENTER_Y), control_id=0)
+        self.p2 = Player(position=(CENTER_X + 300, CENTER_Y), control_id=1)
 
         self.food = FoodFactory()
 
@@ -53,7 +54,7 @@ class Game:
 
         self.p1.update()
         self.p1.draw(self.display_surface)
-        
+
         self.p2.update()
         self.p2.draw(self.display_surface)
 
@@ -61,7 +62,6 @@ class Game:
             self.score += 1
             Game.eat_soud.play(0)
             print(self.score)
-            
 
         self.draw_ui()
 
@@ -75,36 +75,41 @@ class Game:
         nfood = self.food.activeFood()
 
         if (nfood > self.max_vidas):
-            BitmapText.display(self.display_surface,"Perdiste", WINDOW_WIDTH/2-270,WINDOW_HEIGHT/2-120,font=BitmapText.TITLE);
+            BitmapText.display(self.display_surface,
+                               "Perdiste",
+                               CENTER_X - 270,
+                               CENTER_Y - 120,
+                               font=BitmapText.TITLE)
 
         if self.delay_tick > 0:
-            BitmapText.display(self.display_surface,"¿Listos?", WINDOW_WIDTH/2-270,WINDOW_HEIGHT/2-120,font=BitmapText.TITLE);
-            BitmapText.display(self.display_surface,str(self.delay_tick), WINDOW_WIDTH/2-50,WINDOW_HEIGHT/2-25,font=BitmapText.TITLE);
+            BitmapText.display(self.display_surface,
+                               "¿Listos?",
+                               CENTER_X - 270,
+                               CENTER_Y - 120,
+                               font=BitmapText.TITLE)
+            BitmapText.display(self.display_surface,
+                               str(self.delay_tick),
+                               CENTER_X - 50,
+                               CENTER_Y - 25,
+                               font=BitmapText.TITLE)
 
+        BitmapText.display(self.display_surface, "Score: " + str(self.score),
+                           20, 20)
 
-        BitmapText.display(self.display_surface,"Score: " + str(self.score) , 20,20);
-            
-        height_100 = WINDOW_HEIGHT-40
-        delta = (height_100/self.max_vidas)*nfood
-        
-        height = height_100  - delta
+        height_100 = WINDOW_HEIGHT - 40
+        delta = (height_100 / self.max_vidas) * nfood
+
+        height = height_100 - delta
         top = 20 + delta
-        
+
         # top_0 = height_100
         # top = top_0 + nfood - self.vidas
-        
-        pygame.draw.rect(
-            surface=self.display_surface,
-            border_radius=10,
-            color=(0, 150, 0),
-            rect=pygame.Rect(
-                WINDOW_WIDTH-80,
-                top,
-                60,
-                height
-            ),
-            width=0        
-        )
+
+        pygame.draw.rect(surface=self.display_surface,
+                         border_radius=10,
+                         color=(0, 150, 0),
+                         rect=pygame.Rect(WINDOW_WIDTH - 80, top, 60, height),
+                         width=0)
 
     def run(self):
         # delta time
