@@ -9,8 +9,9 @@ from bibloteca.BitmapText import BitmapText
 class Game:
 
     TICK = pygame.USEREVENT + 1
-    BG = pygame.image.load("./res/fondo.jpg")
-
+    background_image = pygame.image.load("./res/fondo.jpg")
+    eat_soud = pygame.mixer.Sound("./res/mixkit-video-game-retro-click-237.wav")
+    
     def __init__(self):
         # setup
         pygame.time.set_timer(Game.TICK, 500)
@@ -26,13 +27,12 @@ class Game:
         self.last_time = time.time()
         self.score = 0
 
-        self.max_vidas = 50
-        self.vidas = 50
+        self.max_vidas = 25
 
         self.delay_tick = 10
 
     def loop(self):
-        self.display_surface.blit(Game.BG, (0, 0))
+        self.display_surface.blit(Game.background_image, (0, 0))
 
         # event loop
         for event in pygame.event.get():
@@ -53,13 +53,15 @@ class Game:
 
         self.p1.update()
         self.p1.draw(self.display_surface)
-
+        
         self.p2.update()
         self.p2.draw(self.display_surface)
 
         if (self.collide_food(self.p1) or self.collide_food(self.p2)):
             self.score += 1
+            Game.eat_soud.play(0)
             print(self.score)
+            
 
         self.draw_ui()
 
@@ -72,10 +74,16 @@ class Game:
     def draw_ui(self):
         nfood = self.food.activeFood()
 
-        if self.delay_tick > 0:
-            BitmapText.display(self.display_surface,"¿Listos?", WINDOW_WIDTH/2-270,WINDOW_HEIGHT/2-120);
-            BitmapText.display(self.display_surface,str(self.delay_tick), WINDOW_WIDTH/2-50,WINDOW_HEIGHT/2-25);
+        if (nfood > self.max_vidas):
+            BitmapText.display(self.display_surface,"Perdiste", WINDOW_WIDTH/2-270,WINDOW_HEIGHT/2-120,font=BitmapText.TITLE);
 
+        if self.delay_tick > 0:
+            BitmapText.display(self.display_surface,"¿Listos?", WINDOW_WIDTH/2-270,WINDOW_HEIGHT/2-120,font=BitmapText.TITLE);
+            BitmapText.display(self.display_surface,str(self.delay_tick), WINDOW_WIDTH/2-50,WINDOW_HEIGHT/2-25,font=BitmapText.TITLE);
+
+
+        BitmapText.display(self.display_surface,"Score: " + str(self.score) , 20,20);
+            
         height_100 = WINDOW_HEIGHT-40
         delta = (height_100/self.max_vidas)*nfood
         

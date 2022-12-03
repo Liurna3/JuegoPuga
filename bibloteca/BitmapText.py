@@ -6,8 +6,8 @@ class BitmapText:
     """"""
 
     # estilos del texto
-    TITLE = pygame.font.SysFont('Consolas', 25)
-    NORMAL = pygame.font.SysFont('Consolas', 100)
+    TITLE = pygame.font.SysFont('Consolas', 100)
+    NORMAL = pygame.font.SysFont('Consolas', 25)
 
     def __init__(self):
         pass
