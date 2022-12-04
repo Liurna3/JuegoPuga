@@ -12,7 +12,7 @@ class Game:
     background_image = pygame.image.load("./res/fondo.jpg")
     eat_soud = pygame.mixer.Sound(
         "./res/mixkit-video-game-retro-click-237.wav")
-
+    
 
 
 
