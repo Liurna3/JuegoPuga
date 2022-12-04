@@ -22,12 +22,8 @@ class Game:
 
         self.food = FoodFactory()
 
-        self.p1 = Player(
-            control_id=0,
-            position=(CENTER_X - 300, CENTER_Y)
-        )
-
-        self.p1.control = Control(
+        
+        self.p1_control = Control(
             control_id=0,
             key_down=pygame.K_s,
             key_up=pygame.K_w,
@@ -35,13 +31,8 @@ class Game:
             key_right=pygame.K_d,
             key_fire = pygame.K_z
         )
-        
-        self.p2 = Player(
-            control_id=1,
-            position=(CENTER_X + 300, CENTER_Y)
-        )
-        
-        self.p2.control = Control(
+
+        self.p2_control = Control(
             control_id=1,
             key_down=pygame.K_k,
             key_up=pygame.K_i,
@@ -49,7 +40,23 @@ class Game:
             key_right=pygame.K_l,
             key_fire = pygame.K_b
         )
+        
 
+        self.p1 = Player(
+            control_id=0,
+            position=(CENTER_X - 300, CENTER_Y)
+        )
+
+        self.p1.control = self.p1_control
+
+        self.p2 = Player(
+            control_id=1,
+            position=(CENTER_X + 300, CENTER_Y)
+        )
+
+        self.p2.control = self.p2_control
+        
+        
 
         self.last_time = time.time()
         self.score = 0
@@ -59,11 +66,25 @@ class Game:
         self.lock = True
         self.scene_active = True
         self.exiting = False
+        self.clock = pygame.time.Clock()
 
 
     def reset(self):
-        self.p1.set_position((CENTER_X - 300, CENTER_Y))
-        self.p2.set_position((CENTER_X + 300, CENTER_Y))
+        self.p1 = Player(
+            control_id=0,
+            position=(CENTER_X - 300, CENTER_Y)
+        )
+
+        self.p1.control = self.p1_control
+
+        self.p2 = Player(
+            control_id=1,
+            position=(CENTER_X + 300, CENTER_Y)
+        )
+
+        self.p2.control = self.p2_control
+        
+
         
         self.food.group.empty()
         self.food.active = False
@@ -75,7 +96,7 @@ class Game:
         self.lock = True
         self.scene_active = True
         self.exiting = False
-
+        self.clock = pygame.time.Clock()
 
         
     def loop(self):
@@ -97,7 +118,7 @@ class Game:
                 sys.exit()
 
         # game logic
-
+        dt = self.clock.tick(60) / 1000
 
 
         if self.exiting and self.exit_delay == 0:
@@ -109,10 +130,11 @@ class Game:
             self.exiting = True
         
         if self.delay_tick == 0 and self.exit_delay == 0:
+            
             self.food.active = True
             self.food.update()
-            self.p1.update()
-            self.p2.update()
+            self.p1.update(dt)
+            self.p2.update(dt)
 
         if (self.collide_food(self.p1) or self.collide_food(self.p2)):
             self.score += 1

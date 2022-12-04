@@ -39,8 +39,6 @@ class Player(pygame.sprite.Sprite):
         self.direction = pygame.math.Vector2(0, -1)
         self.angle = 0
 
-        self.clock = pygame.time.Clock()
-
         self.control = Control(
             control_id=control_id,
             key_down=pygame.K_s,
@@ -52,6 +50,8 @@ class Player(pygame.sprite.Sprite):
     def set_position(self, position = (0,0)):
         self.rect = self.image.get_rect(center=position)
         self.hitbox = Hitbox(self.rect)
+
+        
         
     def draw(self, screen):
         screen.blit(self.image, self.rect)
@@ -68,8 +68,7 @@ class Player(pygame.sprite.Sprite):
         self.rect = self.image.get_rect(center=self.rect.center)
         
  
-    def update(self):
-        dt = self.clock.tick(60) / 1000
+    def update(self, dt):
         # self.control.update()
 
         if self.control.get(Control.LEFT):
