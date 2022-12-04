@@ -13,6 +13,7 @@ class Control:
     RIGHT = 1
     UP = 2
     DOWN = 3
+    FIRE = 4
     
     def __init__(self,
                  control_id = -1,
@@ -20,7 +21,8 @@ class Control:
                  
                  key_right = None,
                  key_up = None,
-                 key_down = None):
+                 key_down = None,
+                 key_fire = None):
         
         self.device_type = Control.UNDEFINED
         self.device_id = control_id
@@ -29,6 +31,7 @@ class Control:
         self._right = key_right
         self._up = key_up
         self._down = key_down
+        self._fire = key_fire
 
         self.buttons = {
             Control.LEFT: 0,
@@ -46,6 +49,7 @@ class Control:
         
 
     def get(self,button):
+        self.update()
         return self.buttons[button]
         
     def update(self):
@@ -57,6 +61,7 @@ class Control:
             self.buttons[Control.LEFT] = radio < 0
             self.buttons[Control.RIGHT] = radio > 0
             self.buttons[Control.UP] = self._joystick.get_button(0)
+            self.buttons[Control.FIRE] = self._joystick.get_button(0)
             return
             
 
@@ -66,6 +71,7 @@ class Control:
             self.buttons[Control.RIGHT] = key[self._right]
             self.buttons[Control.UP] = key[self._up]
             self.buttons[Control.DOWN] = key[self._down]
+            self.buttons[Control.FIRE] = key[self._fire]
             return
             
     @classmethod

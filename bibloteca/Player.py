@@ -16,7 +16,10 @@ class Hitbox():
 class Player(pygame.sprite.Sprite):
     """"""
 
-    image_path = "./res/celula.png"
+    image_path = [
+        "./res/celula.png",
+        "./res/white-blood-cell-100x100.png"
+    ]
     
     def __init__(self, position = (0,0), control_id = -1):
         # Call the parent class (Sprite) constructor
@@ -25,7 +28,7 @@ class Player(pygame.sprite.Sprite):
         # self.surface = pygame.transform.smoothscxale(
         #     pygame.image.load(image).convert(), (100, 100))
 
-        self.surface = pygame.image.load(Player.image_path).convert_alpha()
+        self.surface = pygame.image.load(Player.image_path[control_id]).convert_alpha()
         self.image = self.surface
         self.rect = self.image.get_rect(center=position)
         self.hitbox = Hitbox(self.rect)

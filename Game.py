@@ -13,6 +13,11 @@ class Game:
     eat_soud = pygame.mixer.Sound(
         "./res/mixkit-video-game-retro-click-237.wav")
 
+
+
+
+
+    
     def __init__(self):
         # setup
         pygame.time.set_timer(Game.TICK, 500)
@@ -30,7 +35,8 @@ class Game:
             key_down=pygame.K_s,
             key_up=pygame.K_w,
             key_left=pygame.K_a,
-            key_right=pygame.K_d
+            key_right=pygame.K_d,
+            key_fire = pygame.K_z
         )
         
         self.p2 = Player(
@@ -43,7 +49,8 @@ class Game:
             key_down=pygame.K_k,
             key_up=pygame.K_i,
             key_left=pygame.K_j,
-            key_right=pygame.K_l
+            key_right=pygame.K_l,
+            key_fire = pygame.K_b
         )
 
         self.food = FoodFactory()
@@ -51,7 +58,12 @@ class Game:
         self.score = 0
         self.max_vidas = 25
         self.delay_tick = 10
+        self.lock = True
 
+
+
+
+        
     def loop(self):
         self.display_surface.blit(Game.background_image, (0, 0))
 
@@ -70,12 +82,13 @@ class Game:
         # game logic
 
         self.food.update()
+
+        if self.delay_tick <= 0 and  self.food.activeFood() < self.max_vidas:
+            self.p1.update()
+            self.p2.update()
+
         self.food.draw(self.display_surface)
-
-        self.p1.update()
         self.p1.draw(self.display_surface)
-
-        self.p2.update()
         self.p2.draw(self.display_surface)
 
         if (self.collide_food(self.p1) or self.collide_food(self.p2)):
@@ -86,10 +99,20 @@ class Game:
 
         pygame.display.update()
 
+
+
+
+
+        
     def collide_food(self, player):
         return pygame.sprite.spritecollide(player.hitbox, self.food.group,
                                            True)
 
+
+
+
+
+    
     def draw_ui(self):
         nfood = self.food.activeFood()
 
@@ -97,7 +120,7 @@ class Game:
         if (nfood >= self.max_vidas):
             BitmapText.title(
                 self.display_surface,
-                "GAME OVER  GAME OVER  GAME",
+                "GAME OVER  GAME OVER  GAME OVER",
                 color=(255,0,0),
                 cap=True
             )
@@ -115,7 +138,8 @@ class Game:
             self.display_surface,
             "Score: " + str(self.score),
             20,
-            20)
+            20
+        )
 
         height_100 = WINDOW_HEIGHT - 40
         delta = (height_100 / self.max_vidas) * nfood
@@ -131,10 +155,9 @@ class Game:
             width=0
         )
 
+
     def run(self):
         # delta time
         while True:
-            # dt = time.time() - self.last_time
-            # last_time = time.time()
             self.loop()
             pygame.time.Clock().tick(FRAMERATE)
