@@ -70,7 +70,7 @@ class Player(pygame.sprite.Sprite):
  
     def update(self):
         dt = self.clock.tick(60) / 1000
-        self.control.update()
+        # self.control.update()
 
         if self.control.get(Control.LEFT):
             self.rotate(self.rotation_speed * dt)

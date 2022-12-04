@@ -69,7 +69,7 @@ class Game:
         self.food.active = False
         
         self.score = 0
-        self.max_vidas = 3
+        self.max_vidas = 25
         self.delay_tick = 10
         self.exit_delay = 0
         self.lock = True
@@ -79,7 +79,6 @@ class Game:
 
         
     def loop(self):
-
 
         # event loop
         for event in pygame.event.get():
