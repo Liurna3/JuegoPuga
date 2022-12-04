@@ -11,8 +11,12 @@ from Title import Title
 if __name__ == '__main__':
     game = Game()
     title = Title()
-    
-    title.run()
 
-    if not title.scene_active:
-        game.run()
+    while True:
+        title.run()
+
+        if not title.scene_active:
+            game.run()
+
+        title.scene_active = True
+        game.reset()

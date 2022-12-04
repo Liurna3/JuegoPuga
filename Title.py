@@ -22,7 +22,8 @@ class Title:
             key_down=pygame.K_s,
             key_up=pygame.K_w,
             key_left=pygame.K_a,
-            key_right=pygame.K_d
+            key_right=pygame.K_d,
+            key_fire=pygame.K_z,
         )
         
         self.dificultad_text = [
