@@ -1,7 +1,7 @@
 import pygame
 import random
 
-from settings import *
+from bibloteca.settings import *
 
 class Food(pygame.sprite.Sprite):
 
