@@ -1,33 +1,26 @@
 import pygame
 import random
 
-from settings import *
+from bibloteca.settings import *
 
 class Food(pygame.sprite.Sprite):
 
-    image_path = "./res/cancer.png"
-
-    def __init__(self, position = (0,0)):
+    def __init__(self, position = (0,0), image = None):
         pygame.sprite.Sprite.__init__(self)
 
-        self.surface = pygame.image.load(Food.image_path).convert_alpha()
+        self.surface = pygame.image.load(image).convert_alpha()
         self.image = self.surface
         self.rect = self.image.get_rect(center=position)
 
 class FoodFactory():
-    def __init__(self, active=False):
+    def __init__(self, window_width, window_height):
         self.group = pygame.sprite.Group()
-        self.active = active
+        self.window_width = window_width
+        self.window_height = window_height
 
 
     def create(self):
-        if self.active:
-            self.group.add(Food(
-                position=(
-                    random.randint(0+70, WINDOW_WIDTH-70),
-                    random.randint(0+70, WINDOW_HEIGHT-70)
-                )
-            ))
+        self.group.add(Food(position=(random.randint(0+70, self.window_width-70),random.randint(0+70, self.window_height-70)), image=self.image_path))
         
     def update(self):
         self.group.update()        
@@ -39,3 +32,9 @@ class FoodFactory():
         
     def activeFood(self):
         return len(self.group.sprites())
+
+    def setImage(self, image_path):
+        self.image_path = image_path
+    
+    def reset(self):
+        self.group.empty()
