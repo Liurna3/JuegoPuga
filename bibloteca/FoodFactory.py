@@ -35,3 +35,6 @@ class FoodFactory():
 
     def setImage(self, image_path):
         self.image_path = image_path
+    
+    def reset(self):
+        self.group.empty()

@@ -62,6 +62,11 @@ class Player(pygame.sprite.Sprite):
     def setControl(self, control_id,key_down,key_up,key_left,key_right,key_fire):
         self.control = Control(control_id=control_id,key_down=key_down,key_up=key_up,key_left=key_left,key_right=key_right,key_fire = pygame.K_b)
 
+    def setPosition(self, x, y):
+        self.rect.x = x
+        self.rect.y = y
+        self.hitbox.set_position(self.rect.centerx,self.rect.centery)
+    
     def update(self):
         dt = self.clock.tick(60) / 1000
         self.control.update()

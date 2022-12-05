@@ -128,6 +128,17 @@ class Game:
 
         pygame.display.update()
         
+    def reset(self):
+        self.score = 0
+        self.gameOver = False
+        i = 0
+        for player in self.players:
+            player.setPosition(self.window_height/len(self.players) + i*200, self.window_height/2)
+            i += 1
+        self.food.reset()
+        self.delay_tick = 10
+        
+    
     def collide_food(self, players):
         for player in players:
             if pygame.sprite.spritecollide(player, self.food.group, True):

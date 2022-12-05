@@ -1,4 +1,4 @@
-import pygame
+import pygame, time
 from bibloteca.Player import Player
 from bibloteca.Game import Game
 from bibloteca.settings import *
@@ -7,6 +7,9 @@ from bibloteca.settings import *
 from Title import Title
 
 if __name__ == '__main__':
+    
+    
+
     game = Game(1280, 720, 60)
     game.setBackground("./res/fondo.jpg")
     game.setEatSound("./res/mixkit-video-game-retro-click-237.wav")
@@ -18,7 +21,7 @@ if __name__ == '__main__':
     game.setScoreMessage("Puntaje: ", (255, 255, 255))
     game.setFontDisplay("JetBrains Mono", 20)
     game.setFontTitle("JetBrains Mono", 10)
-    game.setMaxVidas(3)
+    game.setMaxVidas(10)
 
     p1 = Player(control_id=0,position=(CENTER_X - 300, CENTER_Y))
     p1.setControl(control_id=0,key_down=pygame.K_s,key_up=pygame.K_w, key_left=pygame.K_a,key_right=pygame.K_d,key_fire = pygame.K_z)
@@ -32,7 +35,10 @@ if __name__ == '__main__':
 
     game.addPlayer(p1)
     game.addPlayer(p2)
-    
-    while game.isGameOver() == False: 
-        game.run()    
-    print(game.getScore())
+    while True:
+        while not game.isGameOver(): 
+            game.run()    
+        print(game.getScore())
+        time.sleep(2)
+        game.reset()
+
