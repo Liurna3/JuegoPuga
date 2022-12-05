@@ -11,13 +11,13 @@ class Food(pygame.sprite.Sprite):
         self.surface = pygame.image.load(image).convert_alpha()
         self.image = self.surface
         self.rect = self.image.get_rect(center=position)
-        
 
 class FoodFactory():
     def __init__(self, window_width, window_height):
         self.group = pygame.sprite.Group()
         self.window_width = window_width
         self.window_height = window_height
+
 
     def create(self):
         self.group.add(Food(position=(random.randint(0+70, self.window_width-70),random.randint(0+70, self.window_height-70)), image=self.image_path))

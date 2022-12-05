@@ -7,7 +7,7 @@ from bibloteca.BitmapText import BitmapText
 class Title:
 
     title_image = "./res/title.png"
-    background_image = pygame.image.load("./res/fondo.jpg")
+    background_image = pygame.image.load("./res/fondoInicio.jpg")
     
     def __init__(self):
         self.window = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
@@ -22,7 +22,8 @@ class Title:
             key_down=pygame.K_s,
             key_up=pygame.K_w,
             key_left=pygame.K_a,
-            key_right=pygame.K_d
+            key_right=pygame.K_d,
+            key_fire=pygame.K_z,
         )
         
         self.dificultad_text = [

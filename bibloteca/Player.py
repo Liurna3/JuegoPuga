@@ -36,6 +36,12 @@ class Player(pygame.sprite.Sprite):
             key_right=pygame.K_d
         )
 
+    def set_position(self, position = (0,0)):
+        self.rect = self.image.get_rect(center=position)
+        self.hitbox = Hitbox(self.rect)
+
+        
+        
     def draw(self, screen):
         screen.blit(self.image, self.rect)
         # pygame.draw.rect(screen, (255,0,0), self.hitbox.rect,2)
