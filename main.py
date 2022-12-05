@@ -16,6 +16,7 @@ if __name__ == '__main__':
         title.run()
 
         if not title.scene_active:
+            game.dif = title.dificultad
             game.run()
 
         title.scene_active = True

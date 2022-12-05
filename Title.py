@@ -7,7 +7,7 @@ from bibloteca.BitmapText import BitmapText
 class Title:
 
     title_image = "./res/title.png"
-    background_image = pygame.image.load("./res/fondo.jpg")
+    background_image = pygame.image.load("./res/fondoInicio.jpg")
     
     def __init__(self):
         self.window = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))

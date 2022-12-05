@@ -57,10 +57,10 @@ class Game:
         self.p2.control = self.p2_control
         
         
-
+        self.dif = 0
         self.last_time = time.time()
         self.score = 0
-        self.max_vidas = 3
+        self.max_vidas = 25
         self.delay_tick = 10
         self.exit_delay = 0
         self.lock = True
@@ -104,7 +104,8 @@ class Game:
         # event loop
         for event in pygame.event.get():
             if event.type == Game.TICK:
-                self.food.create()
+                for i in range(self.dif+1):
+                    self.food.create()
                 
                 if self.delay_tick > 0:
                     self.delay_tick -= 1
