@@ -13,6 +13,12 @@ class BitmapText:
     def __init__(self):
         pass
 
+    def setFontTitle(font_path, size):
+        BitmapText.TITLE = pygame.font.SysFont(font_path, size)
+    
+    def setFontDisplay(font_path, size):
+        BitmapText.NORMAL = pygame.font.SysFont(font_path, size)
+
     @classmethod
     def display(cls, surface, text, x, y, color=(255,255,255), font=DEFAULT):
         text_surface = font.render(text, False, color)
