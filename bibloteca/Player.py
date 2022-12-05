@@ -14,12 +14,6 @@ class Hitbox():
 
         
 class Player(pygame.sprite.Sprite):
-    """"""
-
-    image_path = [
-        "./res/celula.png",
-        "./res/white-blood-cell-100x100.png"
-    ]
     
     def __init__(self, position = (0,0), control_id = -1):
         # Call the parent class (Sprite) constructor
@@ -28,19 +22,12 @@ class Player(pygame.sprite.Sprite):
         # self.surface = pygame.transform.smoothscxale(
         #     pygame.image.load(image).convert(), (100, 100))
 
-        self.surface = pygame.image.load(Player.image_path[control_id]).convert_alpha()
-        self.image = self.surface
-        self.rect = self.image.get_rect(center=position)
-        self.hitbox = Hitbox(self.rect)
-
+        self.pos = position
         self.speed = 255
         self.rotation_speed = 150
-
         self.direction = pygame.math.Vector2(0, -1)
         self.angle = 0
-
         self.clock = pygame.time.Clock()
-
         self.control = Control(
             control_id=control_id,
             key_down=pygame.K_s,
@@ -52,7 +39,7 @@ class Player(pygame.sprite.Sprite):
     def draw(self, screen):
         screen.blit(self.image, self.rect)
         # pygame.draw.rect(screen, (255,0,0), self.hitbox.rect,2)
-        
+    
     def acelerar(self, dt):
         self.rect.move_ip(self.direction * self.speed * dt)
         self.hitbox.set_position(self.rect.centerx,self.rect.centery)
@@ -63,7 +50,18 @@ class Player(pygame.sprite.Sprite):
         self.angle = (self.angle + delta_angle) % 360
         self.rect = self.image.get_rect(center=self.rect.center)
         
- 
+    def setImagen(self, imagen):
+        self.surface = pygame.image.load(imagen).convert_alpha()
+        self.image = self.surface
+        self.rect = self.image.get_rect(center=self.pos)
+        self.hitbox = Hitbox(self.rect)
+    
+    def setSpeed(self, speed):
+        self.speed = speed
+
+    def setControl(self, control_id,key_down,key_up,key_left,key_right,key_fire):
+        self.control = Control(control_id=control_id,key_down=key_down,key_up=key_up,key_left=key_left,key_right=key_right,key_fire = pygame.K_b)
+
     def update(self):
         dt = self.clock.tick(60) / 1000
         self.control.update()

@@ -11,51 +11,17 @@ class Game:
     pygame.init()
     pygame.font.init()
     pygame.mixer.init()
-    pygame.display.set_caption('biblioteca')
     pygame.time.set_timer(TICK, 500)
-    background_image = pygame.image.load("./res/fondo.jpg")
-    eat_soud = pygame.mixer.Sound(
-        "./res/mixkit-video-game-retro-click-237.wav")
+   
     
-    def __init__(self):
+    def __init__(self, window_width, window_height, framerate):
         # setup
         self.players = []
-
-        self.display_surface = pygame.display.set_mode(
-            (WINDOW_WIDTH, WINDOW_HEIGHT))
-
-        p1 = Player(
-            control_id=0,
-            position=(CENTER_X - 300, CENTER_Y)
-        )
-
-        p1.control = Control(
-            control_id=0,
-            key_down=pygame.K_s,
-            key_up=pygame.K_w,
-            key_left=pygame.K_a,
-            key_right=pygame.K_d,
-            key_fire = pygame.K_z
-        )
-        
-        p2 = Player(
-            control_id=1,
-            position=(CENTER_X + 300, CENTER_Y)
-        )
-        
-        p2.control = Control(
-            control_id=1,
-            key_down=pygame.K_k,
-            key_up=pygame.K_i,
-            key_left=pygame.K_j,
-            key_right=pygame.K_l,
-            key_fire = pygame.K_b
-        )
-
-        self.players.append(p1)
-        self.players.append(p2)
-
-        self.food = FoodFactory()
+        self.window_width = window_width
+        self.window_height = window_height
+        self.framerate = framerate
+        self.display_surface = pygame.display.set_mode((window_width, window_height))
+        self.food = FoodFactory(self.window_width, self.window_height)
         self.last_time = time.time()
         self.score = 0
         self.max_vidas = 25
@@ -73,7 +39,21 @@ class Game:
     def addPlayer(self, player):
         self.players.append(player)
     
+    def set_max_vidas(self, max_vidas):
+        self.max_vidas = max_vidas
+
+    def setBackground(self, image_path):
+        Game.background_image = pygame.image.load(image_path)
     
+    def setEatSound(self, sound_path):
+        Game.eat_soud = pygame.mixer.Sound(sound_path)
+
+    def setNameApp(self, name):
+        pygame.display.set_caption(name)
+
+    def setFoodImage(self, image_path):
+        self.food.setImage(image_path)
+
     def loop(self):
         self.display_surface.blit(Game.background_image, (0, 0))
 
@@ -106,21 +86,11 @@ class Game:
         self.draw_ui()
 
         pygame.display.update()
-
-
-
-
-
         
     def collide_food(self, players):
         for player in players:
             if pygame.sprite.spritecollide(player, self.food.group, True):
                 return True 
-
-
-
-
-
     
     def draw_ui(self):
         nfood = self.food.activeFood()
@@ -150,7 +120,7 @@ class Game:
             20
         )
 
-        height_100 = WINDOW_HEIGHT - 40
+        height_100 = self.window_height - 40
         delta = (height_100 / self.max_vidas) * nfood
 
         height = height_100 - delta
@@ -160,7 +130,7 @@ class Game:
             surface=self.display_surface,
             border_radius=10,
             color=(0, 255, 0),
-            rect=pygame.Rect(WINDOW_WIDTH - 80, top, 60, height),
+            rect=pygame.Rect(self.window_width - 80, top, 60, height),
             width=0
         )
 
@@ -169,4 +139,4 @@ class Game:
         # delta time
         while True:
             self.loop()
-            pygame.time.Clock().tick(FRAMERATE)
+            pygame.time.Clock().tick(self.framerate)
