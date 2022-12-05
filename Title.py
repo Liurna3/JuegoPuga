@@ -31,6 +31,7 @@ class Title:
             "< Normal >",
             "< Difícil "
         ]
+        self.vidasdDificultad = [25, 15, 8]
 
         self.max_dificultad = len(self.dificultad_text) - 1
         self.dificultad = 0
@@ -66,16 +67,18 @@ class Title:
 
         BitmapText.title(
             self.window,
-            self.get_dificultad(),
+            self.get_dificultadText(),
             font=BitmapText.DEFAULT,
             cap=True
         )
         
         pygame.display.update()
 
-    def get_dificultad(self):
+    def get_dificultadText(self):
         return self.dificultad_text[self.dificultad]
-        
+    
+    def getDificultad(self):
+        return self.vidasdDificultad[self.dificultad];
     
     def run(self):
         while self.scene_active:

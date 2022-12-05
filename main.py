@@ -7,9 +7,6 @@ from bibloteca.settings import *
 from Title import Title
 
 if __name__ == '__main__':
-    
-    
-
     game = Game(1280, 720, 60)
     game.setBackground("./res/fondo.jpg")
     game.setEatSound("./res/mixkit-video-game-retro-click-237.wav")
@@ -30,15 +27,16 @@ if __name__ == '__main__':
     p2 = Player(control_id=1, position=(CENTER_X + 300, CENTER_Y))
     p2.setControl(control_id=1,key_down=pygame.K_k,key_up=pygame.K_i,key_left=pygame.K_j,key_right=pygame.K_l,key_fire = pygame.K_b) 
     p2.setImagen('./res/celula2.png')
-
-
-
     game.addPlayer(p1)
     game.addPlayer(p2)
+    title = Title()
     while True:
+        title.run()
+        game.set_max_vidas(title.getDificultad())
         while not game.isGameOver(): 
             game.run()    
         print(game.getScore())
         time.sleep(2)
+        title.scene_active = True
         game.reset()
 
