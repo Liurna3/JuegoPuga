@@ -72,6 +72,7 @@ class Player(pygame.sprite.Sprite):
         self.rect.x = x
         self.rect.y = y
         self.hitbox.set_position(self.rect.centerx,self.rect.centery)
+        self.angle = 0
     
     def update(self):
         dt = self.clock.tick(60) / 1000

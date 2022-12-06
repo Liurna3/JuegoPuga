@@ -1,5 +1,5 @@
 import pygame, sys, time
-from bibloteca.settings import *
+from settings import *
 
 from bibloteca.Control import Control
 from bibloteca.BitmapText import BitmapText

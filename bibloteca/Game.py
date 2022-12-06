@@ -1,5 +1,4 @@
 import pygame, sys, time
-from bibloteca.settings import *
 
 from bibloteca.Control import Control
 from bibloteca.Player import Player

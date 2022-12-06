@@ -1,7 +1,7 @@
 import pygame, time
 from bibloteca.Player import Player
 from bibloteca.Game import Game
-from bibloteca.settings import *
+from settings import *
 
 
 from Title import Title
@@ -30,6 +30,7 @@ if __name__ == '__main__':
     game.addPlayer(p1)
     game.addPlayer(p2)
     title = Title()
+
     while True:
         title.run()
         game.set_max_vidas(title.getDificultad())
